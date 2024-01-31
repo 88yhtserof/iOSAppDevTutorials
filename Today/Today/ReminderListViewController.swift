@@ -8,6 +8,10 @@
 import UIKit
 
 class ReminderListViewController: UICollectionViewController {
+    
+    typealias DataSource = UICollectionViewDiffableDataSource<Int, String>
+    
+    var dataSource: DataSource!
 
     // viewController가 자신의 view 계층을 메모리에 로드한 후 시스템은 ViewDiddLoad를 호출한다.
     override func viewDidLoad() {
@@ -15,6 +19,18 @@ class ReminderListViewController: UICollectionViewController {
         
         let listLayout = listLayout()
         collectionView.collectionViewLayout = listLayout
+        
+        let cellRegisteration = UICollectionView.CellRegistration { (cell: UICollectionViewListCell, indexPath: IndexPath, itemIdentifier: String) in
+            let reminder = Reminder.sampleData[indexPath.item]
+            var contentConfiguration = cell.defaultContentConfiguration()
+            contentConfiguration.text = reminder.title
+            cell.contentConfiguration = contentConfiguration
+        }
+        
+        dataSource = DataSource(collectionView: collectionView, cellProvider: { 
+            (collectionView: UICollectionView, indexPath: IndexPath, itemIdentifier: String) in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegisteration, for: indexPath, item: itemIdentifier)
+        })
     }
     
     private func listLayout() -> UICollectionViewCompositionalLayout {
@@ -24,4 +40,3 @@ class ReminderListViewController: UICollectionViewController {
         return UICollectionViewCompositionalLayout.list(using: listConfiguration)
     }
 }
-
