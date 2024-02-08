@@ -27,10 +27,27 @@ extension ReminderListViewController {
         contentConfiguration.secondaryTextProperties.font = UIFont.preferredFont(forTextStyle: .caption1)
         cell.contentConfiguration = contentConfiguration
         
+        var doneButtonConfiguration = doneButtonConfiguaration(for: reminder)
+        doneButtonConfiguration.tintColor = .todayListCellDoneButtonTint
+        cell.accessories = [
+            .customView(configuration: doneButtonConfiguration),
+            .disclosureIndicator(displayed: .always)
+        ]
+        
         var backgroundConfiguration = UIBackgroundConfiguration.listGroupedCell()
         backgroundConfiguration.backgroundColor = .todayListCellBackground
         cell.backgroundConfiguration = backgroundConfiguration
         // 제공받은 백그라운드 컬러 에셋을 사용하더라도 기본 백스라운 컬러를 변경시키지 못한다.
         // 이후 이를 고치는 튜토리얼을 진행한다.
+    }
+    
+    /// list 내 완료 버튼의 configuration을 반환하는 메서드
+    private func doneButtonConfiguaration(for reminder: Reminder) -> UICellAccessory.CustomViewConfiguration {
+        let symbolName = reminder.isComplete ? "circle.fill" : "circle"
+        let symbolConfiguration = UIImage.SymbolConfiguration(textStyle: .title1)
+        let image = UIImage(systemName: symbolName, withConfiguration: symbolConfiguration)
+        let button = UIButton()
+        button.setImage(image, for: .normal)
+        return UICellAccessory.CustomViewConfiguration(customView: button, placement: .leading(displayed: .always))
     }
 }
