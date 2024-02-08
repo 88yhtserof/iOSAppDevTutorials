@@ -15,6 +15,18 @@ struct Reminder: Identifiable {
     var isComplete: Bool = false
 }
 
+// Array의 Extension, where절을 사용하여 element를 Reminder으로 타입 한정
+extension [Reminder] {
+    // Create function for accessing the model
+    /// 주어진 id와 일치하는 element의 index를 반환하는 메서드
+    func indexOfReminder(withId id: Reminder.ID) -> Self.Index {
+        guard let index = firstIndex(where: { $0.id == id }) else {
+            fatalError()
+        }
+        return index
+    }
+}
+
 
 // #if DEBUG
 // 코드

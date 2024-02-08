@@ -20,7 +20,7 @@ extension ReminderListViewController {
     
     /// cell의 타입을 등록하는 메서드
     func cellRegisterationHandler(cell: UICollectionViewListCell, indexPath: IndexPath, id: Reminder.ID) {
-        let reminder = reminders[indexPath.item]
+        let reminder = reminder(withId: id)
         var contentConfiguration = cell.defaultContentConfiguration()
         contentConfiguration.text = reminder.title
         contentConfiguration.secondaryText = reminder.dueDate.dayAndTimeText
@@ -39,6 +39,20 @@ extension ReminderListViewController {
         cell.backgroundConfiguration = backgroundConfiguration
         // 제공받은 백그라운드 컬러 에셋을 사용하더라도 기본 백스라운 컬러를 변경시키지 못한다.
         // 이후 이를 고치는 튜토리얼을 진행한다.
+    }
+    
+    // Create function for accessing the model
+    // 직접적으로 reminders에 접근하는 것보다 아래 메서드를 사용하는 것이 잠재적인 에러를 감소시키고 코드를 간결하게 유지할 수 있게 한다
+    /// reminder 식별자에 접근하여 일cl하는 reminder를 해당 reminder array에서 반환하는 메서드
+    func reminder(withId id: Reminder.ID) -> Reminder {
+        let index = reminders.indexOfReminder(withId: id)
+        return reminders[index]
+    }
+    
+    /// reminder 식별자에 접근하여 일cl하는 reminder를 찾아 업데이트하는 메서드
+    func updateReminder(_ reminder: Reminder) {
+        let index = reminders.indexOfReminder(withId: reminder.id)
+        reminders[index] = reminder
     }
     
     /// list 내 완료 버튼의 configuration을 반환하는 메서드
