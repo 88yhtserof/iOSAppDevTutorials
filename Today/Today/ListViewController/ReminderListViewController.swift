@@ -12,6 +12,7 @@ import UIKit
 
 class ReminderListViewController: UICollectionViewController {
     var dataSource: DataSource!
+    var reminders: [Reminder] = Reminder.sampleData
 
     // viewController가 자신의 view 계층을 메모리에 로드한 후 시스템은 ViewDiddLoad를 호출한다.
     override func viewDidLoad() {
@@ -25,13 +26,13 @@ class ReminderListViewController: UICollectionViewController {
         let cellRegisteration = UICollectionView.CellRegistration(handler: cellRegisterationHandler)
         
         dataSource = DataSource(collectionView: collectionView, cellProvider: { 
-            (collectionView: UICollectionView, indexPath: IndexPath, itemIdentifier: String) in
+            (collectionView: UICollectionView, indexPath: IndexPath, itemIdentifier: Reminder.ID) in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegisteration, for: indexPath, item: itemIdentifier)
         })
         
         var snapshot = Snapshot()
         snapshot.appendSections([0])
-        snapshot.appendItems(Reminder.sampleData.map{ $0.title })
+        snapshot.appendItems(reminders.map { $0.id })
         dataSource.apply(snapshot)
         
         collectionView.dataSource = dataSource
