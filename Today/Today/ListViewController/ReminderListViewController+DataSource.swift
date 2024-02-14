@@ -18,6 +18,20 @@ extension ReminderListViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<Int, Reminder.ID>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Int, Reminder.ID>
     
+    // diffable data source를 사용할 때에는 데이터가 변경될 때 사용자 인터페이스를 업데이트하기 위해선 새로운 snapshot을 적용해야 한다.
+    /// diffable data source에 snapshot을 적용시키는 메서드
+    func updateSnapshot(reloading ids: [Reminder.ID] = []) {
+        // 빈 array를 기본값으로 설정하여 viewDidLoad에서 인수 전달 없이 호출할 수 있도록 한다
+        var snapshot = Snapshot()
+        snapshot.appendSections([0])
+        snapshot.appendItems(reminders.map { $0.id })
+        if !ids.isEmpty {
+            snapshot.reloadItems(ids)
+        }
+        dataSource.apply(snapshot)
+    }
+    
+    
     /// cell의 타입을 등록하는 메서드
     func cellRegisterationHandler(cell: UICollectionViewListCell, indexPath: IndexPath, id: Reminder.ID) {
         let reminder = reminder(withId: id)
@@ -61,6 +75,7 @@ extension ReminderListViewController {
         var reminder = reminder(withId: id)
         reminder.isComplete.toggle()
         updateReminder(reminder)
+        updateSnapshot(reloading: [id])
     }
     
     /// list 내 완료 버튼의 configuration을 반환하는 메서드
