@@ -18,6 +18,13 @@ extension ReminderListViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<Int, Reminder.ID>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Int, Reminder.ID>
     
+    var reminderCompletedValue: String {
+        NSLocalizedString("Completed", comment: "Reminder completed value")
+    }
+    var reminderNotCompletedValue: String {
+        NSLocalizedString("Not completed", comment: "Reminder not completed vlaue")
+    }
+    
     // diffable data source를 사용할 때에는 데이터가 변경될 때 사용자 인터페이스를 업데이트하기 위해선 새로운 snapshot을 적용해야 한다.
     /// diffable data source에 snapshot을 적용시키는 메서드
     func updateSnapshot(reloading ids: [Reminder.ID] = []) {
@@ -43,6 +50,8 @@ extension ReminderListViewController {
         
         var doneButtonConfiguration = doneButtonConfiguaration(for: reminder)
         doneButtonConfiguration.tintColor = .todayListCellDoneButtonTint
+        cell.accessibilityCustomActions = [doneButtonAccessibilityAction(for: reminder)]
+        cell.accessibilityValue = reminder.isComplete ? reminderCompletedValue : reminderNotCompletedValue
         cell.accessories = [
             .customView(configuration: doneButtonConfiguration),
             .disclosureIndicator(displayed: .always)
@@ -76,6 +85,21 @@ extension ReminderListViewController {
         reminder.isComplete.toggle()
         updateReminder(reminder)
         updateSnapshot(reloading: [id])
+    }
+    
+    // doneButton에 적용할 커스텀 accessibilityAction을 생성하는 메서드
+    // 각 cell에 대해 하나씩 accessibilityAction을 생성할 계획이다
+    private func doneButtonAccessibilityAction(for reminder: Reminder) -> UIAccessibilityCustomAction {
+        //VoiceOver은 액션이 이용 가능할 때 사용자에게 이를 알린다.
+        // 사용자가 그 옵션들을 듣기로 결정하면, VoiceOver은 각 앤션의 이름들을 읽는다.
+        let name = NSLocalizedString("Toggle completion", comment: "Reminder done button accessibility label")
+        let action = UIAccessibilityCustomAction(name: name, actionHandler: { [weak self] action in
+            // 클로저는 기본적으로 클로저 내부에서 사용할 외부 값에 대해 강한 참조를 생성한다.
+            // 내부에서 사용할 view controller에 약한 참조를 지정하여 순환 참조를 방지하라.
+            self?.completeReminder(withId: reminder.id)
+            return true
+        })
+        return action
     }
     
     /// list 내 완료 버튼의 configuration을 반환하는 메서드
