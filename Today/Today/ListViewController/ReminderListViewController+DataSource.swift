@@ -49,10 +49,18 @@ extension ReminderListViewController {
         return reminders[index]
     }
     
-    /// reminder 식별자에 접근하여 일cl하는 reminder를 찾아 업데이트하는 메서드
+    /// reminder 식별자에 접근하여 일치하는 reminder를 찾아 업데이트하는 메서드
     func updateReminder(_ reminder: Reminder) {
         let index = reminders.indexOfReminder(withId: reminder.id)
         reminders[index] = reminder
+    }
+    
+    /// Reminder.ID에 접근하여 상태를 변경하는 메서드
+    func completeReminder(withId id: Reminder.ID) {
+        // fetch the reminder
+        var reminder = reminder(withId: id)
+        reminder.isComplete.toggle()
+        updateReminder(reminder)
     }
     
     /// list 내 완료 버튼의 configuration을 반환하는 메서드
