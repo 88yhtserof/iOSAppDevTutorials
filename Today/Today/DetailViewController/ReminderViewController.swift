@@ -8,9 +8,10 @@
 import UIKit
 
 class ReminderViewController: UICollectionViewController {
-    // DataSource는 제너릭 타입이다.
-    // 제너릭 파라미터로 Int와 Row를 지정했으므로 DataSource가 section number로 Int를, list의 row로 Row 타입을 사용함을 컴파일러에게 알려줄 수 있다.
+    // DataSource과 SnapShot은 제너릭 타입이다.
+    // 제너릭 파라미터로 Int와 Row를 지정했으므로 DataSource 또는 SnapShot이 section number로 Int를, list의 row로 Row 타입을 사용함을 컴파일러에게 알려줄 수 있다.
     private typealias DataSource = UICollectionViewDiffableDataSource<Int, Row>
+    private typealias Snapshot = NSDiffableDataSourceSnapshot<Int, Row>
     
     var reminder: Reminder
     private var dataSource: DataSource!
@@ -35,6 +36,11 @@ class ReminderViewController: UICollectionViewController {
         dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, itemIdentifier: Row) in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
         }
+        
+        // view controller가 로드하는 첫 순간에 data snapshot이 목록에 반영된다.
+        // 이후 reminder detail 아이템을 수정할 때, 사용자 인토페이스를 업데이트하기 위해 또다른 snapshot을 적용해야한다.
+        // 왜냐하면 snapshot은 사용자가 만든 모든 변화를 반영하기 때문이다.
+        updateSnapshot()
     }
     
     /// cell과 indexPath row를 받아 collectionview에 cell 등록
@@ -56,5 +62,13 @@ class ReminderViewController: UICollectionViewController {
         case .time: return reminder.dueDate.formatted(date: .omitted, time: .shortened)
         case .title: return reminder.title
         }
+    }
+    
+    private func updateSnapshot() {
+        var snapShot = Snapshot()
+        snapShot.appendSections([0])
+        snapShot.appendItems([Row.title, Row.date, Row.time, Row.time, Row.notes], toSection: 0)
+        // snapshot을 datasource에 적용하는 것은 snapshot의 데이터와 스타일을 반영한 사용자 인터페이스를 업데이트시킨다.
+        dataSource.apply(snapShot)
     }
 }
