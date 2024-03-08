@@ -42,11 +42,22 @@ class ReminderViewController: UICollectionViewController {
             navigationItem.style = .navigator
         }
         navigationItem.title = NSLocalizedString("Reminder", comment: "Reminder view controller title")
+        navigationItem.rightBarButtonItem = editButtonItem
         
         // view controller가 로드하는 첫 순간에 data snapshot이 목록에 반영된다.
         // 이후 reminder detail 아이템을 수정할 때, 사용자 인토페이스를 업데이트하기 위해 또다른 snapshot을 적용해야한다.
         // 왜냐하면 snapshot은 사용자가 만든 모든 변화를 반영하기 때문이다.
         updateSnapshotForViewing()
+    }
+    
+    // 사용자가 Edit 또는 Done 버튼을 누르면 호출되는 setEditing 메서드를 오버라이드
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        if editing {
+            updateSnapshotForEditing()
+        } else {
+            updateSnapshotForViewing()
+        }
     }
     
     /// cell과 indexPath row를 받아 collectionview에 cell 등록
