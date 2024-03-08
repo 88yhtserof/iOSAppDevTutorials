@@ -12,6 +12,7 @@ extension ReminderViewController {
     // 이를 위해 열거형을 hashable하게 만든다.
     // 열거형을 추가하는 것은 각 행을 간단 명료하게 이미지화하며, 이는 view controller가 각 행에 적절한 텍스트를 제공하도록 돕는다.
     enum Row: Hashable {
+        case header(String)
         case date
         case notes
         case time

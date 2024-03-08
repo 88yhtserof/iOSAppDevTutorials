@@ -20,6 +20,7 @@ class ReminderViewController: UICollectionViewController {
         self.reminder = reminder
         var listConfiguration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
         listConfiguration.showsSeparators = false
+        listConfiguration.headerMode = .firstItemInSection
         let listLayout = UICollectionViewCompositionalLayout.list(using: listConfiguration)
         super.init(collectionViewLayout: listLayout)
     }
@@ -64,6 +65,11 @@ class ReminderViewController: UICollectionViewController {
     func cellRegistrationHandler(cell: UICollectionViewListCell, indexPath: IndexPath, row: Row) {
         let section = section(for: indexPath)
         switch (section, row) {
+        case (_, .header(let title)):
+            // 첫 번째 행을 헤더로 지정했으므로 cell이 필요. row가 header에 해당하는 경우 cell의 기본 구성에 텍스트를 지정하여 구성을 마무리한다
+            var contentConfiguration = cell.defaultContentConfiguration()
+            contentConfiguration.text = title
+            cell.contentConfiguration = contentConfiguration
         case (.view, _):
             var contentConfiguaration = cell.defaultContentConfiguration()
             contentConfiguaration.text = text(for: row)
@@ -84,18 +90,23 @@ class ReminderViewController: UICollectionViewController {
         case .notes: return reminder.notes
         case .time: return reminder.dueDate.formatted(date: .omitted, time: .shortened)
         case .title: return reminder.title
+        default: return nil
         }
     }
     
     private func updateSnapshotForEditing() {
         var snapshot = Snapshot()
         snapshot.appendSections([.title, .date, . notes])
+        snapshot.appendItems([.header(Section.title.name)], toSection: .title)
+        snapshot.appendItems([.header(Section.date.name)], toSection: .date)
+        snapshot.appendItems([.header(Section.notes.name)], toSection: .notes)
+        dataSource.apply(snapshot)
     }
     
     private func updateSnapshotForViewing() {
         var snapShot = Snapshot()
         snapShot.appendSections([.view])
-        snapShot.appendItems([Row.title, Row.date, Row.time, Row.notes], toSection: .view)
+        snapShot.appendItems([Row.header(""), Row.title, Row.date, Row.time, Row.notes], toSection: .view)
         // snapshot을 datasource에 적용하는 것은 snapshot의 데이터와 스타일을 반영한 사용자 인터페이스를 업데이트시킨다.
         dataSource.apply(snapShot)
     }
