@@ -67,7 +67,7 @@ class ReminderViewController: UICollectionViewController {
     private func updateSnapshot() {
         var snapShot = Snapshot()
         snapShot.appendSections([0])
-        snapShot.appendItems([Row.title, Row.date, Row.time, Row.time, Row.notes], toSection: 0)
+        snapShot.appendItems([Row.title, Row.date, Row.time, Row.notes], toSection: 0)
         // snapshot을 datasource에 적용하는 것은 snapshot의 데이터와 스타일을 반영한 사용자 인터페이스를 업데이트시킨다.
         dataSource.apply(snapShot)
     }

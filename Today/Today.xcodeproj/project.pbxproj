@@ -76,11 +76,11 @@
 				14AC34E62B68A606001AF47D /* AppDelegate.swift */,
 				14AC34E82B68A606001AF47D /* SceneDelegate.swift */,
 				14B2AEF12B7251EE000A46EE /* ListViewController */,
+				14ACF9812B998A4700AF36D6 /* DetailViewController */,
 				14AC34EC2B68A606001AF47D /* Main.storyboard */,
 				14AC34EF2B68A607001AF47D /* Assets.xcassets */,
 				14AC34F12B68A607001AF47D /* LaunchScreen.storyboard */,
 				14AC34F42B68A607001AF47D /* Info.plist */,
-				14ACF9812B998A4700AF36D6 /* DetailViewController */,
 			);
 			path = Today;
 			sourceTree = "<group>";
