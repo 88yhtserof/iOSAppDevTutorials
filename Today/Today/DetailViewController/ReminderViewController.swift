@@ -10,8 +10,8 @@ import UIKit
 class ReminderViewController: UICollectionViewController {
     // DataSource과 SnapShot은 제너릭 타입이다.
     // 제너릭 파라미터로 Int와 Row를 지정했으므로 DataSource 또는 SnapShot이 section number로 Int를, list의 row로 Row 타입을 사용함을 컴파일러에게 알려줄 수 있다.
-    private typealias DataSource = UICollectionViewDiffableDataSource<Int, Row>
-    private typealias Snapshot = NSDiffableDataSourceSnapshot<Int, Row>
+    private typealias DataSource = UICollectionViewDiffableDataSource<Section, Row>
+    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Row>
     
     var reminder: Reminder
     private var dataSource: DataSource!
@@ -72,9 +72,17 @@ class ReminderViewController: UICollectionViewController {
     
     private func updateSnapshot() {
         var snapShot = Snapshot()
-        snapShot.appendSections([0])
-        snapShot.appendItems([Row.title, Row.date, Row.time, Row.notes], toSection: 0)
+        snapShot.appendSections([.view])
+        snapShot.appendItems([Row.title, Row.date, Row.time, Row.notes], toSection: .view)
         // snapshot을 datasource에 적용하는 것은 snapshot의 데이터와 스타일을 반영한 사용자 인터페이스를 업데이트시킨다.
         dataSource.apply(snapShot)
+    }
+    
+    private func section(for indexPath: IndexPath) -> Section {
+        let sectionNumber = isEditing ? indexPath.section + 1 : indexPath.section
+        guard let section = Section(rawValue: sectionNumber) else {
+            fatalError("Unable to find matching section")
+        }
+        return section
     }
 }
