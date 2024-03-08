@@ -37,6 +37,12 @@ class ReminderViewController: UICollectionViewController {
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
         }
         
+        // iOS 16 이후부터는 navigationBar의 동작과 content 밀집도를 커스텀할 수 있다
+        if #available(iOS 16, *) {
+            navigationItem.style = .navigator
+        }
+        navigationItem.title = NSLocalizedString("Reminder", comment: "Reminder view controller title")
+        
         // view controller가 로드하는 첫 순간에 data snapshot이 목록에 반영된다.
         // 이후 reminder detail 아이템을 수정할 때, 사용자 인토페이스를 업데이트하기 위해 또다른 snapshot을 적용해야한다.
         // 왜냐하면 snapshot은 사용자가 만든 모든 변화를 반영하기 때문이다.
