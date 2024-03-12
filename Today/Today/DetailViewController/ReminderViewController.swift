@@ -67,31 +67,13 @@ class ReminderViewController: UICollectionViewController {
         switch (section, row) {
         case (_, .header(let title)):
             // 첫 번째 행을 헤더로 지정했으므로 cell이 필요. row가 header에 해당하는 경우 cell의 기본 구성에 텍스트를 지정하여 구성을 마무리한다
-            var contentConfiguration = cell.defaultContentConfiguration()
-            contentConfiguration.text = title
-            cell.contentConfiguration = contentConfiguration
+            cell.contentConfiguration = headerConfiguration(for: cell, with: title)
         case (.view, _):
-            var contentConfiguaration = cell.defaultContentConfiguration()
-            contentConfiguaration.text = text(for: row)
-            contentConfiguaration.textProperties.font = UIFont.preferredFont(forTextStyle: row.textStyle)
-            contentConfiguaration.image = row.image
-            cell.contentConfiguration = contentConfiguaration
+            cell.contentConfiguration = defaultConfiguration(for: cell, at: row)
         default:
             fatalError("Unexpected combination of section and row")
         }
         cell.tintColor = .todayPrimaryTint
-    }
-    
-    // 주어진 행과 관련한 텍스트를 반환하는 함수
-    // if문 대신 열거형을 사용하여 각 case를 구분한다면, 각 행 수정이 쉬워지고 이후 reminder의 상세를 더 추가할 수 있어 확장적이다
-    func text(for row: Row) -> String? {
-        switch row {
-        case .date: return reminder.dueDate.dayText
-        case .notes: return reminder.notes
-        case .time: return reminder.dueDate.formatted(date: .omitted, time: .shortened)
-        case .title: return reminder.title
-        default: return nil
-        }
     }
     
     private func updateSnapshotForEditing() {
