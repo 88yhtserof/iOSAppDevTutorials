@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1452C8AE2BA1A8D2005C6A95 /* TextFieldContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1452C8AD2BA1A8D1005C6A95 /* TextFieldContentView.swift */; };
 		14A041002B9ADC7A00389C8F /* ReminderViewController+Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A040FF2B9ADC7A00389C8F /* ReminderViewController+Section.swift */; };
 		14AC34E72B68A606001AF47D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14AC34E62B68A606001AF47D /* AppDelegate.swift */; };
 		14AC34E92B68A606001AF47D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14AC34E82B68A606001AF47D /* SceneDelegate.swift */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1452C8AD2BA1A8D1005C6A95 /* TextFieldContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldContentView.swift; sourceTree = "<group>"; };
 		14A040FF2B9ADC7A00389C8F /* ReminderViewController+Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReminderViewController+Section.swift"; sourceTree = "<group>"; };
 		14AC34E32B68A606001AF47D /* Today.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Today.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14AC34E62B68A606001AF47D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				14AD35462BA06037001A360F /* UIView+PinnedSubview.swift */,
+				1452C8AD2BA1A8D1005C6A95 /* TextFieldContentView.swift */,
 			);
 			path = ContentViews;
 			sourceTree = "<group>";
@@ -210,6 +213,7 @@
 				14F39EED2B7CCD690050D24E /* ReminderListViewController+Actions.swift in Sources */,
 				14ACF9802B99843B00AF36D6 /* ReminderViewController.swift in Sources */,
 				14AC34EB2B68A606001AF47D /* ReminderListViewController.swift in Sources */,
+				1452C8AE2BA1A8D2005C6A95 /* TextFieldContentView.swift in Sources */,
 				14F7549F2B6B743E00B35371 /* Date+Today.swift in Sources */,
 				14ACF9832B998A8E00AF36D6 /* ReminderViewController+Row.swift in Sources */,
 				14F39EEB2B7CCC400050D24E /* ReminderDoneButton.swift in Sources */,
