@@ -32,6 +32,18 @@ extension ReminderViewController {
         return contentConfiguration
     }
     
+    func dateConfiguration(for cell: UICollectionViewListCell, with date: Date) -> DatePickerContentView.Configuration {
+        var configuration = DatePickerContentView.Configuration()
+        configuration.date = date
+        return configuration
+    }
+    
+    func notesConfiguration(for cell: UICollectionViewListCell, with notes: String?) -> TextViewContentView.Configuration {
+        var configuration = TextViewContentView.Configuration()
+        configuration.text = notes
+        return configuration
+    }
+    
     // 이 함수는 각 row 타입에 대한 적절한 text를 생성하기 때문에 cell confoguration 확장 swift 파일에 두는 것이 후에 해당 함수를 찾거나 수정할 때 용이할 것이다.
     // 주어진 행과 관련한 텍스트를 반환하는 함수
     // if문 대신 열거형을 사용하여 각 case를 구분한다면, 각 행 수정이 쉬워지고 이후 reminder의 상세를 더 추가할 수 있어 확장적이다
