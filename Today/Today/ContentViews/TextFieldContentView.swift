@@ -12,6 +12,8 @@ import UIKit
 class TextFieldContentView: UIView, UIContentView {
     // 후에 configuration과 view의 content를 커스터마이즈하기 위해 아래 타입을 사용한다.
     // TextFieldContentView는 초기화시 UIContentConfiguration을 취하지만, 이 UIContentConfiguration은 텍스트필드 내에 포함될 content인 text를 가진다.
+    // Including model data directly in the view code can create problems. Instead, provide the content view with a configuration structure with a property that includes the model data.
+    // 모델 데이터를 뷰에 직접적으로 포함하는 것은 문제를 만들어 낼 수 있다. 대신, 모델 데이터를 포함하는 configuration 구조체의 프로퍼티를 두어 content 뷰에 제공하라
     struct Configuration: UIContentConfiguration {
         var text: String? = ""
         
@@ -21,6 +23,10 @@ class TextFieldContentView: UIView, UIContentView {
     }
     let textField = UITextField()
     var configuration: UIContentConfiguration {
+        // How can you ensure your content view’s visual representation stays in sync with its associated model data?
+        // Include a didSet observer for the configuration property in your content view that reconfigures the view every time the configuration object changes.
+        // Because your configuration object provides the underlying model data, observing the configuration object for changes and reconfiguring the view when changes occur is an effective strategy.
+        // configuration 구조체에 모델 데이터를 포함하는 프로퍼티가 있기 때문에, 뷰가 변화될 때마다 그 변화를 configuration 객체가 옵서빙하고 뷰를 재구성하는 것은 아주 효율적인 뷰-모델 동기화 작업이다
         // configuration이 변경될 때마다 현재 상태를 반영한 UI를 업데이트한다
         didSet { // didSet 옵서버
             configure(configuration: configuration)
