@@ -20,7 +20,12 @@ class TextFieldContentView: UIView, UIContentView {
         }
     }
     let textField = UITextField()
-    var configuration: UIContentConfiguration
+    var configuration: UIContentConfiguration {
+        // configuration이 변경될 때마다 현재 상태를 반영한 UI를 업데이트한다
+        didSet { // didSet 옵서버
+            configure(configuration: configuration)
+        }
+    }
     
     // 시스템은 UIView의 모든 하위클래스에 고유한 크기(너비, 높이)를 할당한다.
     // 예를 들어 label은 글자 크기에 기반하여 고유한 content 크기를 가진다.
@@ -42,5 +47,15 @@ class TextFieldContentView: UIView, UIContentView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
+    func configure(configuration: UIContentConfiguration) {
+        guard let configuration = configuration as? Configuration else { return }
+        textField.text = configuration.text
+    }
+}
+
+// TextFieldContentView와 한 쌍이 될 커스텀 configuration을 반환하는 UICollectionViewListCell의 동작 확장
+extension UICollectionViewListCell {
+    func textFieldConfiguration() -> TextFieldContentView.Configuration {
+        TextFieldContentView.Configuration()
+    }
 }

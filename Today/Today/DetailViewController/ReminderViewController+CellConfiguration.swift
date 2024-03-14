@@ -1,5 +1,5 @@
 //
-//  ReminderViewController+Cell.swift
+//  ReminderViewController+CellConfiguration.swift
 //  Today
 //
 //  Created by 임윤휘 on 3/12/24.
@@ -22,6 +22,12 @@ extension ReminderViewController {
     /// title과 함께 해더로 설정할 cell을 받아 configuration을 반환한다
     func headerConfiguration(for cell: UICollectionViewListCell, with title: String) -> UIListContentConfiguration {
         var contentConfiguration = cell.defaultContentConfiguration()
+        contentConfiguration.text = title
+        return contentConfiguration
+    }
+    
+    func titleConfiguration(for cell: UICollectionViewListCell, with title: String?) ->TextFieldContentView.Configuration {
+        var contentConfiguration = cell.textFieldConfiguration()
         contentConfiguration.text = title
         return contentConfiguration
     }
