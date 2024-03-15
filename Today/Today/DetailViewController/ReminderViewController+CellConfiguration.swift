@@ -45,9 +45,12 @@ extension ReminderViewController {
     }
     
     func notesConfiguration(for cell: UICollectionViewListCell, with notes: String?) -> TextViewContentView.Configuration {
-        var configuration = TextViewContentView.Configuration()
-        configuration.text = notes
-        return configuration
+        var contentConfiguration = TextViewContentView.Configuration()
+        contentConfiguration.text = notes
+        contentConfiguration.onChange = { [weak self] notes in
+            self?.workingReminder.notes = notes
+        }
+        return contentConfiguration
     }
     
     // 이 함수는 각 row 타입에 대한 적절한 text를 생성하기 때문에 cell confoguration 확장 swift 파일에 두는 것이 후에 해당 함수를 찾거나 수정할 때 용이할 것이다.
