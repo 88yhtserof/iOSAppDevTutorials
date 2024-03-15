@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Reminder: Identifiable {
+struct Reminder: Equatable, Identifiable {
     var id: String = UUID().uuidString // 개별의 Reminder 구분 목적 프로퍼티
     var title: String
     var dueDate: Date
