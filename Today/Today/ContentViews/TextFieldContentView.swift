@@ -16,6 +16,7 @@ class TextFieldContentView: UIView, UIContentView {
     // 모델 데이터를 뷰에 직접적으로 포함하는 것은 문제를 만들어 낼 수 있다. 대신, 모델 데이터를 포함하는 configuration 구조체의 프로퍼티를 두어 content 뷰에 제공하라
     struct Configuration: UIContentConfiguration {
         var text: String? = ""
+        var onChange: (String) -> Void = { _ in } // 사용자가 텍스트필드에서 텍스트를 수정할 때 수행할 동작을 가진다
         
         func makeContentView() -> UIView & UIContentView {
             return TextFieldContentView(self)
@@ -46,6 +47,7 @@ class TextFieldContentView: UIView, UIContentView {
         super.init(frame: .zero)
         // top과 bottom의 padding이 0으로 설정되어 있기 때문에, 텍스트뷰가 부모뷰의 전체 높이에 걸쳐져 있다.
         addPinnedSubview(textField, inset: UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16))
+        textField.addTarget(self, action: #selector(didChange(_:)), for: .editingChanged)
         textField.clearButtonMode = .whileEditing
     }
     
@@ -56,6 +58,11 @@ class TextFieldContentView: UIView, UIContentView {
     func configure(configuration: UIContentConfiguration) {
         guard let configuration = configuration as? Configuration else { return }
         textField.text = configuration.text
+    }
+    
+    @objc private func didChange(_ sender: UITextField) {
+        guard let configuration = configuration as? TextFieldContentView.Configuration else { return }
+        configuration.onChange(textField.text ?? "")
     }
 }
 
