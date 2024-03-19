@@ -84,7 +84,15 @@ class ReminderViewController: UICollectionViewController {
         cell.tintColor = .todayPrimaryTint
     }
     
+    @objc func didCancelEdit() {
+        // 편집을 수정했으므로 임시 working reminder를 원래 상태로 초기화
+        workingReminder = reminder
+        setEditing(false, animated: true)
+    }
+    
     private func prepareForEditing() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .cancel, target: self, action: #selector(didCancelEdit))
         updateSnapshotForEditing()
     }
     
@@ -98,6 +106,7 @@ class ReminderViewController: UICollectionViewController {
     }
     
     private func prepareForViewing() {
+        navigationItem.leftBarButtonItem = nil
         if workingReminder != reminder { // 변경사항이 있을 경우 반영
             reminder = workingReminder
         }
