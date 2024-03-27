@@ -92,6 +92,11 @@ extension ReminderListViewController {
         reminders.append(reminder)
     }
     
+    func deleteReminder(withId id: Reminder.ID) {
+        let index = reminders.indexOfReminder(withId: id)
+        reminders.remove(at: index)
+    }
+    
     // doneButton에 적용할 커스텀 accessibilityAction을 생성하는 메서드
     // 각 cell에 대해 하나씩 accessibilityAction을 생성할 계획이다
     private func doneButtonAccessibilityAction(for reminder: Reminder) -> UIAccessibilityCustomAction {
