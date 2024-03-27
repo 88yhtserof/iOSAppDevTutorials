@@ -87,6 +87,11 @@ extension ReminderListViewController {
         updateSnapshot(reloading: [id])
     }
     
+    // 사용자가 Done 버튼을 누를 때 호출되어 새 reminder를 저장한다.
+    func addReminder(_ reminder: Reminder) {
+        reminders.append(reminder)
+    }
+    
     // doneButton에 적용할 커스텀 accessibilityAction을 생성하는 메서드
     // 각 cell에 대해 하나씩 accessibilityAction을 생성할 계획이다
     private func doneButtonAccessibilityAction(for reminder: Reminder) -> UIAccessibilityCustomAction {

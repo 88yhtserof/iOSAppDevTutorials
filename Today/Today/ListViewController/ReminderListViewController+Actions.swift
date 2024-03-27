@@ -29,6 +29,9 @@ extension ReminderListViewController {
             // strong: 참조하는 인스턴스의 reference count 증가시키는 일반적인 참조 유형, RC가 0이 될 경우 메모리 상에서 해제. 순환참조가 발생하여 RC가 0이 되지 않아 메모리 해제가 계속 되지 않는 경우 메모리 누수 발생
             // weak: 객체의 소유권을 가지지 않고 주소값만을 가진 Pointer. 참조하는 객체의 RC를 증가시키지 않음(메모리 상에 weak 유형만 남아있다면, 객체는 메모리를 해제). 참조하는 객체게 메모리 해제될 경우, 자동으로 nil값이 할당된다. 따라서 해당 객체는 optional 타입이다.(weak self 시 self?가 되는 걸 떠올려보자)
             // unowned: 말 그대로 소유권을 가지지 않지만 항상 값이 있음을 가정한다. 따라서 optional 타입이 아니다. 소유권을 가지지 않으므로 참조하는 인스턴스의 RC를 증가시키지 않는다. 참조하는 객체가 메모리에서 해제되어도 댕글링 포인터(할당되지 않는 빈 공간을 가르키는 포인터)가 존재한다. 참조 해제로 해당 인스턴스를 사용하면 Error 발생. 따라서 객체의 Life Cycle이 명확한 경우에만 사용한다.
+            self?.addReminder(reminder)
+            self?.updateSnapshot()
+            self?.dismiss(animated: true)
         }
         viewController.isAddingNewReminder = true
         viewController.setEditing(true, animated: false)
