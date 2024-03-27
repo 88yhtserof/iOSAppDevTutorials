@@ -20,6 +20,7 @@ class ReminderViewController: UICollectionViewController {
         }
     }
     var workingReminder: Reminder // 사용자가 수정사항을 저장 또는 폐기(discard)하기 전까지 수정사항을 임시저장하는 프로퍼티
+    var isAddingNewReminder = false
     var onChange: (Reminder) -> Void
     private var dataSource: DataSource!
     
@@ -66,7 +67,11 @@ class ReminderViewController: UICollectionViewController {
         if editing {
             prepareForEditing()
         } else {
-            prepareForViewing()
+            if isAddingNewReminder {
+                onChange(workingReminder)
+            } else {
+                prepareForViewing()
+            }
         }
     }
     
