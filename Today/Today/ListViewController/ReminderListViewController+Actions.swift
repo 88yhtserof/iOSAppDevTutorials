@@ -15,7 +15,7 @@ extension ReminderListViewController {
     }
     
     /// reminder 추가 버튼 클릭 시 호출되는 함수
-    @objc func didPressAddButton(_sender: UIBarButtonItem) {
+    @objc func didPressAddButton(_ sender: UIBarButtonItem) {
         let reminder = Reminder(title: "", dueDate: Date.now)
         let viewController = ReminderViewController(reminder: reminder) { [weak self] reminder in
             // closure의 캡쳐 리스트에 [weak self]를 추가하여 reminder view controller가 reminder "list" view controller에 대한 강한 참조(strong reference)를 캡쳐하거나 저장하는 걸 방지한다.
