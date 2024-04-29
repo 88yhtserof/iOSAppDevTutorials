@@ -27,11 +27,16 @@ extension ReminderListViewController {
     
     // diffable data source를 사용할 때에는 데이터가 변경될 때 사용자 인터페이스를 업데이트하기 위해선 새로운 snapshot을 적용해야 한다.
     /// diffable data source에 snapshot을 적용시키는 메서드
-    func updateSnapshot(reloading ids: [Reminder.ID] = []) {
+    func updateSnapshot(reloading idsThatChanged: [Reminder.ID] = []) {
+        let ids = idsThatChanged.filter { id in filteredReminders.contains(where: { $0.id == id }) }
+        // snapShot 업데이트 시, 해당하는 id의 snapshot만 업데이트되도록 하는데,
+        // 해당 Reminder가 현재 ReminderListStyle에 속하지 않을 수도 있다.
+        // 그러면 이미 filterehls filteredReminders로 만들어진 snapShot에서는 변경된 해당 Reminder를 찾을 수 없어 오류가 발생한다
+        // 따라서 변경된 reminder가 현재 ReminderListStyle에 포함되는지 확인하고 snapShot 업데이트 작업을 해야한다.
         // 빈 array를 기본값으로 설정하여 viewDidLoad에서 인수 전달 없이 호출할 수 있도록 한다
         var snapshot = Snapshot()
         snapshot.appendSections([0])
-        snapshot.appendItems(reminders.map { $0.id })
+        snapshot.appendItems(filteredReminders.map { $0.id })
         if !ids.isEmpty {
             snapshot.reloadItems(ids)
         }
