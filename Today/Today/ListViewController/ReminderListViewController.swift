@@ -19,7 +19,9 @@ class ReminderListViewController: UICollectionViewController {
             $0.dueDate < $1.dueDate
         }
     }
-    let listStyleSegmentedControl = UISegmentedControl(items: [ReminderListStyle.today.name, ReminderListStyle.future.name, ReminderListStyle.all.name])
+    let listStyleSegmentedControl = UISegmentedControl(items: [
+        ReminderListStyle.today.name, ReminderListStyle.future.name, ReminderListStyle.all.name
+    ])
 
     // viewController가 자신의 view 계층을 메모리에 로드한 후 시스템은 ViewDiddLoad를 호출한다.
     override func viewDidLoad() {
@@ -42,6 +44,7 @@ class ReminderListViewController: UICollectionViewController {
         navigationItem.rightBarButtonItem = addButton
         
         listStyleSegmentedControl.selectedSegmentIndex = listStyle.rawValue
+        listStyleSegmentedControl.addTarget(self, action: #selector(didChangeListStyle(_:)), for: .valueChanged)
         navigationItem.titleView = listStyleSegmentedControl
         
         if #available(iOS 16, *) {
